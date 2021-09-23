@@ -1,10 +1,7 @@
 import streamlit as st
 
 def get_branch_info(branch_name, bId):
-    back = st.sidebar.button('<Back')
     logout = st.sidebar.button('Logout')
-    if back:
-        st.session_state['login'] = 1
     if logout:
         st.session_state['login'] = 0
     st.title(branch_name)

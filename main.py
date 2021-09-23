@@ -6,6 +6,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from secret.secret import keys as KEYS
 from secret.secret import PASSWORD_MANAGE
+from get_branch_info import get_branch_info
 
 
 
@@ -42,6 +43,8 @@ if not firebase_admin._apps:
     cred = credentials.Certificate(keys)
     firebase_admin.initialize_app(cred)
 
+st.session_state['db'] = firestore.client()
+
 if 'login' not in st.session_state:
     st.session_state['login'] = 0
 if 'password_manage' not in st.session_state:
@@ -49,12 +52,14 @@ if 'password_manage' not in st.session_state:
     st.session_state['PASSWORD_MANAGE'] = PASSWORD_MANAGE
 if st.session_state['login'] == 0:
 
-    st.session_state['db'] = firestore.client()
     st.title('クライアント情報管理画面')
     PASS = st.text_input('PASSWORD')
     LOGIN_BUTTON = st.button('LogIn')
     if LOGIN_BUTTON:
         if PASS == st.session_state['PASSWORD_MANAGE']:
+            for k in st.session_state.keys():
+                if k != 'db':
+                    st.session_state.pop(k)
             st.session_state['login'] = 1
         else:
             st.write('passwordがちげえぞ')
@@ -69,29 +74,40 @@ if st.session_state['login'] == 1:
         branch_dic = {}
         for doc in docs:
             branch_data = doc.to_dict()
-            branch_dic[branch_data['branchName']] = doc.id
+            branch_dic[doc.id] = branch_data['branchName']
             #st.write(branch_data)
         #st.write(branch_dic)
         client_query = st.session_state['db'].collection('ClientInfo')
         client_docs = client_query.get()
-        client_list = []
-        client_name_list = ['-']
+        client_list = {}
     
         for c_doc in client_docs:
             client_data = c_doc.to_dict()
+
             st.write(client_data)
-            client_dic = {}
-            client_dic['clientName'] = client_data['clientName']
-            client_name_list.append(client_data['clientName'])
-            client_dic['bId'] = client_data['bId']
-            client_list.append(client_dic)
-        st.session_state['client_df'] = pd.DataFrame(data=client_list)
-        st.session_state['branch_dic'] = branch_dic
+
+            client_list[client_data['clientName']] = {}
+            for bId in client_data['bId']:
+                client_list[client_data['clientName']][branch_dic[bId]] = bId
+        
         st.session_state['client_list'] = client_list
-        st.session_state['client_name_list'] = client_name_list
-    
-    st.dataframe(st.session_state['client_df'])
-    client_option = st.selectbox('クライアント名を選んでください', st.session_state['client_name_list'])
-    if client_option in 
+        st.session_state['branch_dic'] = branch_dic
 
+    st.write(st.session_state['client_list'])
+    client_options = ['-']
+    for n in st.session_state['client_list'].keys():
+        client_options.append(n)
+    st.write(st.session_state['branch_dic'])
 
+    client_option = st.selectbox('クライアント名を選んでください', client_options)
+    if client_option in st.session_state['client_list'].keys():
+        branch_options = ['-']
+        for name in st.session_state['client_list'][client_option].keys():
+            branch_options.append(name)
+        branch_option = st.selectbox('支店名を選んでくれーい', branch_options)
+        """
+        if branch_option in [st.session_state['branch_dic'][bId] for bId in st.session_state['client_list'][client_option]]:
+            st.session_state['login'] = 2
+            bId = 
+            get_branch_info(branch_option)
+        """

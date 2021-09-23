@@ -73,31 +73,35 @@ if st.session_state['login'] == 1:
         query = st.session_state['db'].collection('BranchInfo')
         docs = query.get()
         branch_dic = {}
+        branch_user_name_list = []
         for doc in docs:
             branch_data = doc.to_dict()
             branch_dic[doc.id] = branch_data['branchName']
+            branch_user_name_list.append(branch_data['user_name'])
             #st.write(branch_data)
         #st.write(branch_dic)
         client_query = st.session_state['db'].collection('ClientInfo')
         client_docs = client_query.get()
         client_list = {}
+        client_user_name_list = []
     
         for c_doc in client_docs:
             client_data = c_doc.to_dict()
 
-            st.write(client_data)
-
+            client_user_name_list.append(client_data['user_name'])
             client_list[client_data['clientName']] = {}
             for bId in client_data['bId']:
                 client_list[client_data['clientName']][branch_dic[bId]] = bId
         
         st.session_state['client_list'] = client_list
         st.session_state['branch_dic'] = branch_dic
-
+        st.session_state['branch_user_name_list'] = branch_user_name_list
+        st.session_state['client_user_name_list'] = client_user_name_list
+    st.write(st.session_state['client_list'])
     manage_option = st.selectbox('管理オプション', ['-', '店舗管理', 'クライアント新規登録', '店舗新規登録'])
     if manage_option == '店舗管理':
         branch_manage()
-    if 'クライアント新規登録':
+    if manage_option =='クライアント新規登録':
         client_registration()
     if manage_option == '店舗新規登録':
         branch_registration()

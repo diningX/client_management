@@ -68,8 +68,12 @@ if st.session_state['login'] == 1:
     for doc in docs:
         client_data_dic = {}
         client_data = doc.to_dict()
-        client_data_dic['client_name']= 
-
-
-
-    
+        client_data_dic['client_name'] = client_data['client_name']
+        client_data_dic['branch_list'] = {}
+        for bId in client_data['bId']:
+            branch_data = db.collection('BranchInfo').document(bId)
+            branch_data = branch_data.to_dict()
+            branch_name = branch_data['branchName']
+            client_data_dic['branch_list']['branchName'] = bId
+        client_list.append(client_data_dic)
+    st.write(client_list)

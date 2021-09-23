@@ -62,18 +62,36 @@ if st.session_state['login'] == 0:
 
 if st.session_state['login'] == 1:
     st.write('ログイン完了')
-    query = st.session_state['db'].collection('ClientInfo')
-    docs = query.get()
-    client_list = []
-    for doc in docs:
-        client_data_dic = {}
-        client_data = doc.to_dict()
-        client_data_dic['client_name'] = client_data['client_name']
-        client_data_dic['branch_list'] = {}
-        for bId in client_data['bId']:
-            branch_data = db.collection('BranchInfo').document(bId)
-            branch_data = branch_data.to_dict()
-            branch_name = branch_data['branchName']
-            client_data_dic['branch_list']['branchName'] = bId
-        client_list.append(client_data_dic)
-    st.write(client_list)
+    
+    if 'branch_dic' not in st.session_state: 
+        query = st.session_state['db'].collection('BranchInfo')
+        docs = query.get()
+        branch_dic = {}
+        for doc in docs:
+            branch_data = doc.to_dict()
+            branch_dic[branch_data['branchName']] = doc.id
+            #st.write(branch_data)
+        #st.write(branch_dic)
+        client_query = st.session_state['db'].collection('ClientInfo')
+        client_docs = client_query.get()
+        client_list = []
+        client_name_list = ['-']
+    
+        for c_doc in client_docs:
+            client_data = c_doc.to_dict()
+            st.write(client_data)
+            client_dic = {}
+            client_dic['clientName'] = client_data['clientName']
+            client_name_list.append(client_data['clientName'])
+            client_dic['bId'] = client_data['bId']
+            client_list.append(client_dic)
+        st.session_state['client_df'] = pd.DataFrame(data=client_list)
+        st.session_state['branch_dic'] = branch_dic
+        st.session_state['client_list'] = client_list
+        st.session_state['client_name_list'] = client_name_list
+    
+    st.dataframe(st.session_state['client_df'])
+    client_option = st.selectbox('クライアント名を選んでください', st.session_state['client_name_list'])
+    if client_option in 
+
+

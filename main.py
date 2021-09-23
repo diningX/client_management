@@ -1,9 +1,11 @@
 import streamlit as st
 import os
+import pandas as pd
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from secret import keys as KEYS
+from secret.secret import keys as KEYS
+from secret.secret import PASSWORD_MANAGE
 
 
 
@@ -43,14 +45,31 @@ if not firebase_admin._apps:
 if 'login' not in st.session_state:
     st.session_state['login'] = 0
 if 'password_manage' not in st.session_state:
-    st.session_state['password_manage'] = os.environ.get('PASSWORD_MANAGE')
+    st.session_state['PASSWORD_MANAGE'] = os.environ.get('PASSWORD_MANAGE')
+    st.session_state['PASSWORD_MANAGE'] = PASSWORD_MANAGE
 if st.session_state['login'] == 0:
 
     st.session_state['db'] = firestore.client()
     st.title('クライアント情報管理画面')
     PASS = st.text_input('PASSWORD')
-    if PASS == st.session_state['PASSWORD_MANAGE']:
-        st.session_state['login'] = 1
-    else:
+    LOGIN_BUTTON = st.button('LogIn')
+    if LOGIN_BUTTON:
+        if PASS == st.session_state['PASSWORD_MANAGE']:
+            st.session_state['login'] = 1
+        else:
+            st.write('passwordがちげえぞ')
+            
+
+if st.session_state['login'] == 1:
+    st.write('ログイン完了')
+    query = st.session_state['db'].collection('ClientInfo')
+    docs = query.get()
+    client_list = []
+    for doc in docs:
+        client_data_dic = {}
+        client_data = doc.to_dict()
+        client_data_dic['client_name']= 
+
+
 
     

@@ -7,7 +7,8 @@ from firebase_admin import firestore
 from secret.secret import keys as KEYS
 from secret.secret import PASSWORD_MANAGE
 from get_branch_info import get_branch_info
-
+from branch_manage import branch_manage
+from registration import branch_registration, client_registration
 
 
 if not firebase_admin._apps:
@@ -93,21 +94,12 @@ if st.session_state['login'] == 1:
         st.session_state['client_list'] = client_list
         st.session_state['branch_dic'] = branch_dic
 
-    st.write(st.session_state['client_list'])
-    client_options = ['-']
-    for n in st.session_state['client_list'].keys():
-        client_options.append(n)
-    st.write(st.session_state['branch_dic'])
-
-    client_option = st.selectbox('クライアント名を選んでください', client_options)
-    if client_option in st.session_state['client_list'].keys():
-        branch_options = ['-']
-        for name in st.session_state['client_list'][client_option].keys():
-            branch_options.append(name)
-        branch_option = st.selectbox('支店名を選んでくれーい', branch_options)
-       
-        if branch_option in st.session_state['client_list'][client_option].keys():
-            st.session_state['login'] = 2
-            bId = st.session_state['client_list'][client_option][branch_option]
-            get_branch_info(branch_option, bId)
+    manage_option = st.selectbox('管理オプション', ['-', '店舗管理', 'クライアント新規登録', '店舗新規登録'])
+    if manage_option == '店舗管理':
+        branch_manage()
+    if 'クライアント新規登録':
+        client_registration()
+    if manage_option == '店舗新規登録':
+        branch_registration()
         
+            

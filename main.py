@@ -105,9 +105,9 @@ if st.session_state['login'] == 1:
         for name in st.session_state['client_list'][client_option].keys():
             branch_options.append(name)
         branch_option = st.selectbox('支店名を選んでくれーい', branch_options)
-        """
-        if branch_option in [st.session_state['branch_dic'][bId] for bId in st.session_state['client_list'][client_option]]:
+       
+        if branch_option in st.session_state['client_list'][client_option].keys():
             st.session_state['login'] = 2
-            bId = 
-            get_branch_info(branch_option)
-        """
+            bId = st.session_state['client_list'][client_option][branch_option]
+            get_branch_info(branch_option, bId)
+        

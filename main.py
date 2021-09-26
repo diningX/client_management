@@ -97,7 +97,7 @@ if st.session_state['login'] == 1:
         st.session_state['branch_dic'] = branch_dic
         st.session_state['branch_user_name_list'] = branch_user_name_list
         st.session_state['client_user_name_list'] = client_user_name_list
-    st.write(st.session_state['client_list'])
+    #st.write(st.session_state['client_list'])
     manage_option = st.selectbox('管理オプション', ['-', '店舗管理', 'クライアント新規登録', '店舗新規登録'])
     if manage_option == '店舗管理':
         branch_manage()

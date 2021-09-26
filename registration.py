@@ -1,5 +1,6 @@
 import streamlit as st
 
+#st.write
 def branch_registration():
     logout = st.sidebar.button('Logout')
     if logout:

@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 def get_branch_info(branch_name, bId):
     logout = st.sidebar.button('Logout')
     if logout:

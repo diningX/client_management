@@ -2,11 +2,11 @@
 import streamlit as st
 from get_branch_info import get_branch_info
 def branch_manage():
-    st.write(st.session_state['client_list'])
+    #st.write(st.session_state['client_list'])
     client_options = ['-']
     for n in st.session_state['client_list'].keys():
         client_options.append(n)
-    st.write(st.session_state['branch_dic'])
+    #st.write(st.session_state['branch_dic'])
 
     client_option = st.selectbox('クライアント名を選んでください', client_options)
     if client_option in st.session_state['client_list'].keys():

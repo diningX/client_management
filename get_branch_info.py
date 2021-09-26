@@ -2,9 +2,7 @@ import streamlit as st
 
 
 def get_branch_info(branch_name, bId):
-    logout = st.sidebar.button('Logout')
-    if logout:
-        st.session_state['login'] = 0
+    
     st.title(branch_name)
     branch_data = st.session_state['db'].collection('BranchInfo').document(bId).get().to_dict()
     

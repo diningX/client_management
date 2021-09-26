@@ -2,9 +2,6 @@
 import streamlit as st
 from get_branch_info import get_branch_info
 def branch_manage():
-    logout = st.sidebar.button('Logout')
-    if logout:
-        st.session_state['login'] = 0
     #st.write(st.session_state['client_list'])
     client_options = ['-']
     for n in st.session_state['client_list'].keys():

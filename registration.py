@@ -2,9 +2,7 @@ import streamlit as st
 
 #st.write
 def branch_registration():
-    logout = st.sidebar.button('Logout')
-    if logout:
-        st.session_state['login'] = 0
+
     client = st.selectbox('クライアント', st.session_state['client_list'].keys())
     branch_name = st.text_input('Branch Name')
     user_name = st.text_input('user_name')
@@ -64,9 +62,7 @@ def branch_registration():
 
 
 def client_registration():
-    logout = st.sidebar.button('Logout')
-    if logout:
-        st.session_state['login'] = 0
+    
     clientName = st.text_input('Clinet Name')
     user_name = st.text_input('user_name')
     password = st.text_input('password')

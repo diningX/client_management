@@ -4,8 +4,8 @@ import pandas as pd
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from secret.secret import keys as KEYS
-from secret.secret import PASSWORD_MANAGE
+#from secret.secret import keys as KEYS
+#from secret.secret import PASSWORD_MANAGE
 from get_branch_info import get_branch_info
 from branch_manage import branch_manage
 from registration import branch_registration, client_registration
@@ -28,7 +28,7 @@ if not firebase_admin._apps:
     "client_x509_cert_url": os.environ.get('client_x509_cert_url')
     }
     
-    keys = KEYS
+    #keys = KEYS
     
     #print(type(keys))
 
@@ -50,7 +50,7 @@ if 'login' not in st.session_state:
     st.session_state['login'] = 0
 if 'password_manage' not in st.session_state:
     st.session_state['PASSWORD_MANAGE'] = os.environ.get('PASSWORD_MANAGE')
-    st.session_state['PASSWORD_MANAGE'] = PASSWORD_MANAGE
+    #st.session_state['PASSWORD_MANAGE'] = PASSWORD_MANAGE
 if st.session_state['login'] == 0:
 
     st.title('クライアント情報管理画面')

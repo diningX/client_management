@@ -31,33 +31,35 @@ def branch_registration():
     type4 = st.text_input('店舗タイプ5')
     
     save_button = st.button('登録')
-    if user_name in st.session_state['branch_user_name_list']:
-        st.write('同じ店舗のユーザーネームが存在します')
-    elif (len(user_name) == 0) or (len(password) == 0) or (len(branch_name) == 0):
-        st.write('ユーザーネーム、パスワード、branchNameを入力して下さい')
-    elif len(password) < 4:
-        st.write('パスワードは５字以上にして下さい')
-    elif (len(prefecture) == 0) or (len(manicipality) == 0):
-        st.write('都道府県、市町村を入力して下さい')
-    elif len(phoneNumber) == 0:
-        st.write('電話番号を入力して下さい')
-    else:
-        st.session_state['branch_user_name_list'].append(user_name)
-        branch_data = {'user_name':user_name, 'password':password,
-            'branchName':branch_name, 'businessHours':[bussinessHours1, bussinessHours2], 'lotteryDiscountRate':lotteryDiscountRate, 
-            'lotteryProbability':lotteryProbability, 'questionnaireDiscountRate':questionnaireDiscountRate, 'prefecture':prefecture, 'manicipality':manicipality,
-            'phoneNumber':phoneNumber, 'sns':[home_page_url,facebook_url,line_url,twitter_url,instagram_url], 'type':[type0,type1,type2,type3,type4]}
-        st.session_state['db'].collection('BranchInfo').add(branch_data)
-        _ = st.session_state['db'].collection('BranchInfo').where('user_name', '==', user_name).get()
-        for d in _:
-            bId = d.id
-        st.session_state['client_list'][client][branch_name] = bId
-        _ = st.session_state['db'].collection('ClientInfo').where('clientName', '==', client).get()
-        for c in _:
-            cId = c.id
-        client_data = st.session_state['db'].collection('ClientInfo').document(cId).get().to_dict()
-        client_data['bId'].append(bId)
-        st.session_state['db'].collection('ClientInfo').document(cId).set(client_data)
+    if save_button:
+        if user_name in st.session_state['branch_user_name_list']:
+            st.write('同じ店舗のユーザーネームが存在します')
+        elif (len(user_name) == 0) or (len(password) == 0) or (len(branch_name) == 0):
+            st.write('ユーザーネーム、パスワード、branchNameを入力して下さい')
+        elif len(password) < 4:
+            st.write('パスワードは５字以上にして下さい')
+        elif (len(prefecture) == 0) or (len(manicipality) == 0):
+            st.write('都道府県、市町村を入力して下さい')
+        elif len(phoneNumber) == 0:
+            st.write('電話番号を入力して下さい')
+        else:
+            st.session_state['branch_user_name_list'].append(user_name)
+            branch_data = {'user_name':user_name, 'password':password,
+                'branchName':branch_name, 'businessHours':[bussinessHours1, bussinessHours2], 'lotteryDiscountRate':lotteryDiscountRate, 
+                'lotteryProbability':lotteryProbability, 'questionnaireDiscountRate':questionnaireDiscountRate, 'prefecture':prefecture, 'manicipality':manicipality,
+                'phoneNumber':phoneNumber, 'sns':[home_page_url,facebook_url,line_url,twitter_url,instagram_url], 'type':[type0,type1,type2,type3,type4]}
+            st.session_state['db'].collection('BranchInfo').add(branch_data)
+            _ = st.session_state['db'].collection('BranchInfo').where('user_name', '==', user_name).get()
+            for d in _:
+                bId = d.id
+            st.session_state['client_list'][client][branch_name] = bId
+            _ = st.session_state['db'].collection('ClientInfo').where('clientName', '==', client).get()
+            for c in _:
+                cId = c.id
+            client_data = st.session_state['db'].collection('ClientInfo').document(cId).get().to_dict()
+            client_data['bId'].append(bId)
+            st.session_state['db'].collection('ClientInfo').document(cId).set(client_data)
+            st.write('登録完了')
 
 
 

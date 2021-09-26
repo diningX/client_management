@@ -43,8 +43,8 @@ def branch_registration():
         else:
             st.session_state['branch_user_name_list'].append(user_name)
             branch_data = {'user_name':user_name, 'password':password,
-                'branchName':branch_name, 'businessHours':[bussinessHours1, bussinessHours2], 'lotteryDiscountRate':lotteryDiscountRate, 
-                'lotteryProbability':lotteryProbability, 'questionnaireDiscountRate':questionnaireDiscountRate, 'prefecture':prefecture, 'manicipality':manicipality,
+                'branchName':branch_name, 'businessHours':[bussinessHours1, bussinessHours2], 'lotteryDiscountRate':lotteryDiscountRate*0.01, 
+                'lotteryProbability':lotteryProbability*0.01, 'questionnaireDiscountRate':questionnaireDiscountRate*0.01, 'prefecture':prefecture, 'manicipality':manicipality,
                 'phoneNumber':phoneNumber, 'sns':[home_page_url,facebook_url,line_url,twitter_url,instagram_url], 'type':[type0,type1,type2,type3,type4]}
             st.session_state['db'].collection('BranchInfo').add(branch_data)
             _ = st.session_state['db'].collection('BranchInfo').where('user_name', '==', user_name).get()

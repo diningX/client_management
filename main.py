@@ -68,6 +68,9 @@ if st.session_state['login'] == 0:
 
 if st.session_state['login'] == 1:
     st.write('ログイン完了')
+    logout = st.sidebar.button('Logout')
+    if logout:
+        st.session_state['login'] = 0
     
     if 'branch_dic' not in st.session_state: 
         query = st.session_state['db'].collection('BranchInfo')

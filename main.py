@@ -80,7 +80,7 @@ if st.session_state['login'] == 1:
         for doc in docs:
             branch_data = doc.to_dict()
             branch_dic[doc.id] = branch_data['branchName']
-            branch_user_name_list.append(branch_data['user name'])
+            branch_user_name_list.append(branch_data['user_name'])
             #st.write(branch_data)
         #st.write(branch_dic)
         client_query = st.session_state['db'].collection('ClientInfo')

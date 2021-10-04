@@ -31,9 +31,9 @@ def branch_registration():
     save_button = st.button('登録')
     if save_button:
         if user_name in st.session_state['branch_user_name_list']:
-            st.write('同じ店舗のユーザーネームが存在します')
+            st.write('同じ店舗のuser nameが存在します')
         elif (len(user_name) == 0) or (len(password) == 0) or (len(branch_name) == 0):
-            st.write('ユーザーネーム、パスワード、branchNameを入力して下さい')
+            st.write('user name、パスワード、branchNameを入力して下さい')
         elif len(password) < 4:
             st.write('パスワードは５字以上にして下さい')
         elif (len(prefecture) == 0) or (len(manicipality) == 0):
@@ -70,7 +70,7 @@ def client_registration():
     save_button = st.button('登録')
     if save_button:
         if user_name in st.session_state['client_user_name_list']:
-            st.write('同じユーザーネームのクライアントが存在します。')
+            st.write('同じuser nameのクライアントが存在します。')
         elif len(user_name) == 0:
             st.write('user_nameを入力してください')
         elif len(password) < 5:

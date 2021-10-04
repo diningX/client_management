@@ -9,7 +9,7 @@ def get_branch_info(branch_name, bId):
     
     prefecture = st.text_input('都道府県', value=branch_data['prefecture'])
     manicipality = st.text_input('市町村', value=branch_data['manicipality'])
-    user_name = st.text_input('ユーザーネーム', value=branch_data['user_name'])
+    user_name = st.text_input('user name', value=branch_data['user_name'])
     password = st.text_input('password', value=branch_data['password'])
     home_page_url = st.text_input('ホームページ URL', value=branch_data['sns'][0])
     facebook_url = st.text_input('Facebook URL', value=branch_data['sns'][1])
